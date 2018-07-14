@@ -2,34 +2,50 @@
 
 A simple class for creating and handling events dynamically in RPG Maker MV.
 
+## Current Status
+
+This is a "work-in-progress" repository as I update the class to handle everything specified in the documentation below. Be ye patient as all the features come together.
+
 ## Installation
 
 Simply drop the file `EventWrapper.js` in your `js/plugins` folder and enable it through MV's Plugins Manager. Make sure to load it *before* any custom plugins that will be using the class. You can then create events quickly in any of your plugins.
 
 ## How To Use
 
-First, create a new map event.
+### 1. Create a new event
+
+All you need is to specify a name for the event.
 
 ```
 var event = new MapEvent("Event Name");
 ```
 
-Grab some actions from an existing event on the same map. 
+### 2. Specify the event's actions
+
+You can copy the actions from an existing event on the same map. 
 
 ```
-event.copyActionsFromEvent(EVENT_ID);
+event.copyActionsFromEvent(eventId);
 ```
 
-Alternatively, grab some actions from a Common Event.
+Or an existing event on a different map.
 
 ```
-event.copyActionsFromCommonEvent(EVENT_ID);
+event.copyActionsFromEventOnMap(eventId, mapId);
 ```
 
-Spawn the event somewhere on your map.
+Or even a Common Event.
 
 ```
-event.spawn(X, Y);
+event.copyActionsFromCommonEvent(eventId);
+```
+
+### 3. Spawn the event
+
+Just specify the map coordinates for your new event and you're golden!
+
+```
+event.spawn(x, y);
 ```
 
 ## License
