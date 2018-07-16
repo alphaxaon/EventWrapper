@@ -23,28 +23,97 @@ class MapEvent {
      */
     constructor(name) {
         this.data = {
-    		id: this.setId(),
-        	name: name,
-        	note: "",
-        	pages: this.setPages(),
-        	x: 0,
-        	y: 0,
-    		meta: {},
+            id: this.setId(),
+            name: name,
+            note: "",
+            pages: [],
+            x: 0,
+            y: 0,
+            meta: {},
         };
+
+        this.addPage();
     }
 
     /**
      * Automatically set the id for the event.
      */
     setId() {
-    	return $dataMap.events.length;
+        return $dataMap.events.length;
     }
 
     /**
-     * Setup the pages object for the event.
+     * Add a new page for the event's actions.
      */
-    setPages() {
-    	return this.getLastEvent().pages;
+    addPage() {
+        this.data.pages.push({
+            conditions: this.setDefaultConditions(),
+            directionFix: false,
+            image: this.setDefaultImage(),
+            list: [],
+            moveFrequency: 3,
+            moveRoute: this.setDefaultMoveRoute(),
+            moveSpeed: 3,
+            moveType: 0,
+            priorityType: 0,
+            stepAnime: false,
+            through: false,
+            trigger: 0,
+            walkAnime: true
+        });
+    }
+
+    /**
+     * Set the default event conditions for a page of actions.
+     */
+    setDefaultConditions() {
+        return {
+            actorId: 1,
+            actorValid: false,
+            itemId: 1,
+            itemValid: false,
+            selfSwitchCh: "A",
+            selfSwitchValid: false,
+            switch1Id: 1,
+            switch1Valid: false,
+            switch2Id: 1,
+            switch2Valid: false,
+            switch3Id: 1,
+            switch3Valid: false,
+            switch4Id: 1,
+            switch4Valid: false,
+            variableValue: 0
+        };
+    }
+
+    /**
+     * Set the default event image for a page of actions.
+     */
+    setDefaultImage() {
+        return {
+            characterIndex: 0,
+            characterName: "",
+            direction: 2,
+            pattern: 0,
+            tileId: 0
+        };
+    }
+
+    /**
+     * Set the default move route for a page of actions.
+     */
+    setDefaultMoveRoute() {
+        return {
+            list: [
+                {
+                    code: 0,
+                    parameters: []
+                }
+            ],
+            repeat: true,
+            skippable: false,
+            wait: false
+        };
     }
 
     /**
@@ -54,15 +123,15 @@ class MapEvent {
      * @param y (int)
      */
     setPosition(x, y) {
-    	this.data.x = x;
-    	this.data.y = y;
+        this.data.x = x;
+        this.data.y = y;
     }
 
     /**
      * Get the last Event object stored in $dataMap.
      */
     getLastEvent() {
-    	return $dataMap.events[$dataMap.events.length - 1];
+        return $dataMap.events[$dataMap.events.length - 1];
     }
 
     /**
@@ -71,7 +140,7 @@ class MapEvent {
     createGameEvent() {
         $gameMap._events.push(new Game_Event($gameMap._mapId, this.data.id));
 
-    	return $gameMap.event(this.data.id);
+        return $gameMap.event(this.data.id);
     }
 
     /**
@@ -95,19 +164,40 @@ class MapEvent {
     }
 
     /**
+     * Copy actions from another event on the same map with the specified id.
+     *
+     * @param id (int)
+     */
+    copyActionsFromEvent(id) {
+        this.data.pages = $dataMap.events[id].pages;
+    }
+
+    /**
+     * Copy actions from a Common Event with the specified id.
+     *
+     * @param id (int)
+     */
+    copyActionsFromCommonEvent(id) {
+        this.data.pages = [];
+        this.addPage();
+
+        this.data.pages[0].list = $dataCommonEvents[id].list;
+    }
+
+    /**
      * Place the event on the map at the specified coordinates.
      *
      * @param x (int)
      * @param y (int)
      */
     spawn(x, y) {
-    	this.setPosition(x, y);
+        this.setPosition(x, y);
 
-    	$dataMap.events.push(this.data);
+        $dataMap.events.push(this.data);
         var event = this.createGameEvent();
         var sprite = this.createCharacterSprite(event);
         this.addSpriteToTilemap(sprite);
         
-    	console.log('New event created!');
+        console.log('New event created!');
     }
 }
