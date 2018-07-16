@@ -8,6 +8,12 @@
  *
  * @help // Create a new event
  * var event = new MapEvent("Event Name");
+ *
+ * // Copy actions from another event on the same map with the specified id
+ * event.copyActionsFromEvent(1);
+ *
+ * // Copy actions from a Common Event with the specified id
+ * event.copyActionsFromCommonEvent(1);
  * 
  * // Spawn the event at the specified coordinates
  * event.spawn(11, 7);
