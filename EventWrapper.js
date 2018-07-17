@@ -9,8 +9,11 @@
  * @help // Create a new event
  * var event = new MapEvent("Event Name");
  *
- * // Copy actions from another event on the same map with the specified id
+ * // Copy actions from another event with the specified id
  * event.copyActionsFromEvent(1);
+ *
+ * // Copy actions from another event that exists on the map with the specified id
+ * event.copyActionsFromEventOnMap(1, 4);
  *
  * // Copy actions from a Common Event with the specified id
  * event.copyActionsFromCommonEvent(1);
@@ -176,6 +179,38 @@ class MapEvent {
      */
     copyActionsFromEvent(id) {
         this.data.pages = $dataMap.events[id].pages;
+    }
+
+    /**
+     * Copy actions from another event on map with the specified id.
+     *
+     * @param id (int)
+     * @param mapId (int)
+     */
+    copyActionsFromEventOnMap(id, mapId) {
+        var url = 'data/Map%1.json'.format(mapId.padZero(3));
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('GET', url, false);
+        xhr.overrideMimeType('application/json');
+
+        xhr.onload = function() {
+            if (xhr.status < 400) {
+                var mapData = JSON.parse(xhr.responseText);
+
+                if (! (id in mapData.events))
+                    console.error('Error getting event data. Check to make sure an event with that specific id exists on the map.');
+
+                else
+                    this.data.pages = mapData.events[id].pages;
+            }
+        }.bind(this);
+
+        xhr.onerror = function() {
+            console.error('Error getting map data. Check to make sure a map with that specific id exists.');
+        };
+
+        xhr.send();
     }
 
     /**
