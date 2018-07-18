@@ -242,3 +242,38 @@ class MapEvent {
         console.log('New event created!');
     }
 }
+
+/**
+ * Hook into original functions.
+ */
+(function() {
+    // Extend the clearTransferInfo function
+    var clearTransferInfo = Game_Player.prototype.clearTransferInfo;
+
+    // When a transfer is complete and info is being cleared
+    Game_Player.prototype.clearTransferInfo = function() {
+        clearTransferInfo.call(this);
+
+        // Get all existing event ids
+        var eventIds = [];
+        $dataMap.events.forEach(function(object) {
+            if (object === null)
+                return;
+
+            eventIds.push(object.id);
+        });
+        
+        // Clear self switches for non-existing events
+        for (var key in $gameSelfSwitches._data) {
+            var ids = key.split(',');
+            var mapId = Number(ids[0]);
+            var eventId = Number(ids[1]);
+
+            if (mapId != $gameMap._mapId)
+                continue;
+
+            if (!eventIds.contains(eventId))
+                delete $gameSelfSwitches._data[key];
+        }
+    };
+})();
