@@ -14,10 +14,10 @@ Simply drop the file `EventWrapper.js` in your `js/plugins` folder and enable it
 
 ### 1. Create a new event
 
-All you need is to specify a name for the event.
+All you need is to create a new instance of the MapEvent object.
 
 ```
-var event = new MapEvent("Event Name");
+var event = new MapEvent();
 ```
 
 ### 2. Specify the event's actions
