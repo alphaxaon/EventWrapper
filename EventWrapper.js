@@ -7,7 +7,7 @@
  * @author Alphaxaon
  *
  * @help // Create a new event
- * var event = new MapEvent("Event Name");
+ * var event = new MapEvent();
  *
  * // Copy actions from another event with the specified id
  * event.copyActionsFromEvent(1);
@@ -27,13 +27,13 @@
 class MapEvent {
     /**
      * The constructor for a new map event.
-     *
-     * @param name (string)
      */
-    constructor(name) {
+    constructor() {
+        var id = this.setId();
+
         this.data = {
-            id: this.setId(),
-            name: name,
+            id: id,
+            name: "EV" + id.padZero(3),
             note: "",
             pages: [],
             x: 0,
