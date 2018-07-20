@@ -126,6 +126,15 @@ class MapEvent {
     }
 
     /**
+     * Set the name of the event.
+     *
+     * @param name (string)
+     */
+    setName(name) {
+    	this.data.name = name;
+    }
+
+    /**
      * Set the map coordinates of the event.
      *
      * @param x (int)
