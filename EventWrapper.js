@@ -135,6 +135,15 @@ class MapEvent {
     }
 
     /**
+     * Set the note of the event.
+     *
+     * @param note (string)
+     */
+    setNote(note) {
+    	this.data.note = note;
+    }
+
+    /**
      * Set the map coordinates of the event.
      *
      * @param x (int)
