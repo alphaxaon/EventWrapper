@@ -2,10 +2,6 @@
 
 A simple class for creating and handling events dynamically in RPG Maker MV.
 
-## Current Status
-
-This is a "work-in-progress" repository as I update the class to handle everything specified in the documentation below. Be ye patient as all the features come together.
-
 ## Installation
 
 Simply drop the file `EventWrapper.js` in your `js/plugins` folder and enable it through MV's Plugins Manager. Make sure to load it *before* any custom plugins that will be using the class. You can then create events quickly in any of your plugins.
